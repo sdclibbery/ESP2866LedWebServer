@@ -5,13 +5,14 @@
 #include "wifi-credentials.h"
 
 bool ledOn = false;
+int ledPin = 2;
 
 ESP8266WebServer server(80);
 
 void setup(void){
   Serial.begin(115200);
   WiFi.begin(ssid, password);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(ledPin, OUTPUT);
   Serial.println("");
 
   // Wait for connection
@@ -31,7 +32,7 @@ void setup(void){
 
   server.on("/", [](){
     ledOn = !ledOn;
-    digitalWrite(LED_BUILTIN, ledOn ? LOW : HIGH);
+    digitalWrite(ledPin, ledOn ? LOW : HIGH);
     Serial.println(ledOn ? "ON" : "OFF");
     server.send(200, "text/plain", ledOn ? "ON" : "OFF");
   });
